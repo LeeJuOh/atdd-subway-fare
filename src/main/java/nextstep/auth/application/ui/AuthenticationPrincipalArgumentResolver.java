@@ -1,9 +1,10 @@
 package nextstep.auth.application.ui;
 
 import nextstep.auth.application.JwtTokenProvider;
-import nextstep.auth.application.domain.CustomUserPrincipal;
+import nextstep.auth.application.domain.CustomUserDetail;
 import nextstep.auth.application.exception.AuthenticationException;
 import nextstep.auth.application.service.UserDetailService;
+import nextstep.member.domain.MemberDetailCustom;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -39,6 +40,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         }
 
         String email = jwtTokenProvider.getPrincipal(token);
-        return new CustomUserPrincipal(userDetailService.loadUserDetail(email));
+        CustomUserDetail customUserDetail = userDetailService.loadUserDetail(email);
+        return new MemberDetailCustom(customUserDetail.getId(), customUserDetail.getPassword());
     }
 }

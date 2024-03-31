@@ -1,11 +1,11 @@
 package nextstep.member.application.service;
 
 import lombok.RequiredArgsConstructor;
-import nextstep.auth.application.domain.CustomUserPrincipal;
 import nextstep.common.error.exception.NotFoundException;
 import nextstep.member.application.dto.MemberRequest;
 import nextstep.member.application.dto.MemberResponse;
 import nextstep.member.domain.Member;
+import nextstep.member.domain.MemberDetailCustom;
 import nextstep.member.domain.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +42,8 @@ public class MemberService {
     }
 
 
-    public MemberResponse findMe(CustomUserPrincipal userPrincipal) {
-        return memberRepository.findByEmail(userPrincipal.getUserDetail().getId())
+    public MemberResponse findMe(MemberDetailCustom memberDetailCustom) {
+        return memberRepository.findByEmail(memberDetailCustom.getId())
             .map(MemberResponse::of)
             .orElseThrow(NotFoundException::new);
     }

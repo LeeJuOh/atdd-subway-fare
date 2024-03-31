@@ -1,11 +1,11 @@
 package nextstep.member.ui;
 
 import java.net.URI;
-import nextstep.auth.application.domain.CustomUserPrincipal;
 import nextstep.auth.application.ui.AuthenticationPrincipal;
 import nextstep.member.application.dto.MemberRequest;
 import nextstep.member.application.dto.MemberResponse;
 import nextstep.member.application.service.MemberService;
+import nextstep.member.domain.MemberDetailCustom;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +52,10 @@ public class MemberController {
     }
 
     @GetMapping("/members/me")
-    public ResponseEntity<MemberResponse> findMemberOfMine(@AuthenticationPrincipal CustomUserPrincipal userPrincipal) {
-        MemberResponse memberResponse = memberService.findMe(userPrincipal);
+    public ResponseEntity<MemberResponse> findMemberOfMine(
+        @AuthenticationPrincipal MemberDetailCustom memberDetailCustom
+    ) {
+        MemberResponse memberResponse = memberService.findMe(memberDetailCustom);
         return ResponseEntity.ok().body(memberResponse);
     }
 }

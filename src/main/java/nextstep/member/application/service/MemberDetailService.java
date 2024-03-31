@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberDetailService implements UserDetailService {
 
-    public static final String DEFAULT_PASSWORD = UUID.randomUUID().toString();
     private final MemberRepository memberRepository;
 
     @Override
@@ -31,7 +30,7 @@ public class MemberDetailService implements UserDetailService {
     @Override
     public CustomUserDetail loadUserDetail(String id) {
         Member member = memberRepository.findByEmail(id)
-            .orElseGet(() -> memberRepository.save(new Member(id, DEFAULT_PASSWORD, null)));
+            .orElseGet(() -> memberRepository.save(new Member(id, UUID.randomUUID().toString(), null)));
         return new MemberDetailCustom(member.getEmail(), member.getPassword());
     }
 

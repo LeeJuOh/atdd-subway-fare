@@ -3,7 +3,6 @@ package nextstep.favorite.application.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import nextstep.auth.application.domain.CustomUserPrincipal;
 import nextstep.common.error.exception.BadRequestException;
 import nextstep.common.error.exception.NotFoundException;
 import nextstep.common.error.exception.UnAuthorizedException;
@@ -12,6 +11,7 @@ import nextstep.favorite.application.dto.FavoriteResponse;
 import nextstep.favorite.domain.Favorite;
 import nextstep.favorite.domain.FavoriteRepository;
 import nextstep.member.domain.Member;
+import nextstep.member.domain.MemberDetailCustom;
 import nextstep.member.domain.MemberRepository;
 import nextstep.subway.application.service.StationService;
 import nextstep.subway.domain.entity.PathFinder;
@@ -32,10 +32,10 @@ public class FavoriteService {
 
 
     @Transactional
-    public Long createFavorite(CustomUserPrincipal userPrincipal, FavoriteRequest request) {
+    public Long createFavorite(MemberDetailCustom memberDetailCustom, FavoriteRequest request) {
         Station source = stationService.getStationById(request.getSource());
         Station target = stationService.getStationById(request.getTarget());
-        Member member = getMember(userPrincipal);
+        Member member = getMember(memberDetailCustom);
         PathFinder pathFinder = new PathFinder(lineRepository.findAll());
         if (!pathFinder.isValidPath(source, target)) {
             throw new BadRequestException("invalid favorite info");
@@ -45,8 +45,8 @@ public class FavoriteService {
     }
 
 
-    public List<FavoriteResponse> findFavorites(CustomUserPrincipal userPrincipal) {
-        Member member = getMember(userPrincipal);
+    public List<FavoriteResponse> findFavorites(MemberDetailCustom memberDetailCustom) {
+        Member member = getMember(memberDetailCustom);
         List<Favorite> favorites = favoriteRepository.findAllByMemberId(member.getId());
         return favorites.stream()
             .map(FavoriteResponse::new)
@@ -55,8 +55,8 @@ public class FavoriteService {
 
 
     @Transactional
-    public void deleteFavorite(CustomUserPrincipal userPrincipal, Long id) {
-        Member member = getMember(userPrincipal);
+    public void deleteFavorite(MemberDetailCustom memberDetailCustom, Long id) {
+        Member member = getMember(memberDetailCustom);
         Favorite favorite = favoriteRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("not found favorite"));
         if (!favorite.isOwner(member.getId())) {
@@ -65,8 +65,8 @@ public class FavoriteService {
         favoriteRepository.deleteByIdAndMemberId(id, member.getId());
     }
 
-    private Member getMember(CustomUserPrincipal userPrincipal) {
-        return memberRepository.findByEmail(userPrincipal.getUserDetail().getId())
+    private Member getMember(MemberDetailCustom memberDetailCustom) {
+        return memberRepository.findByEmail(memberDetailCustom.getId())
             .orElseThrow(() -> new NotFoundException("not found member"));
     }
 }

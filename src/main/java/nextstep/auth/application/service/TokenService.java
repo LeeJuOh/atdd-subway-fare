@@ -1,6 +1,5 @@
 package nextstep.auth.application.service;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import nextstep.auth.application.JwtTokenProvider;
 import nextstep.auth.application.domain.CustomUserDetail;
@@ -24,15 +23,12 @@ public class TokenService {
 
 
     public TokenResponse createToken(String email, String password) {
-        Optional<CustomUserDetail> userDetailOptional = userDetailService.findById(email);
-        if (userDetailOptional.isEmpty()) {
-            throw new NotFoundException();
-        }
-        CustomUserDetail customUserDetail = userDetailOptional.get();
-        if (!customUserDetail.checkPassword(password)) {
+        CustomUserDetail userDetail = userDetailService.findById(email)
+            .orElseThrow(NotFoundException::new);
+        if (!userDetail.checkPassword(password)) {
             throw new AuthenticationException();
         }
-        String token = jwtTokenProvider.createToken(customUserDetail.getId());
+        String token = jwtTokenProvider.createToken(userDetail.getId());
         return new TokenResponse(token);
     }
 
