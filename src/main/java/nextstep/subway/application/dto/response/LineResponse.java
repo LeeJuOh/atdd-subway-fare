@@ -3,19 +3,22 @@ package nextstep.subway.application.dto.response;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nextstep.subway.domain.entity.Line;
 import nextstep.subway.domain.entity.Station;
 
+@NoArgsConstructor
 @Getter
 public class LineResponse {
 
 
+    @NoArgsConstructor
     @Getter
     public static class StationDto {
 
-        private final Long id;
+        private Long id;
 
-        private final String name;
+        private String name;
 
         public StationDto(Station station) {
             this.id = station.getId();
@@ -24,13 +27,13 @@ public class LineResponse {
 
     }
 
-    private final Long id;
+    private Long id;
 
-    private final String name;
+    private String name;
 
-    private final String color;
+    private String color;
 
-    private final List<StationDto> stations;
+    private List<StationDto> stations;
 
     public LineResponse(Line line) {
         this.id = line.getId();

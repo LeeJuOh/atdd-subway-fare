@@ -25,6 +25,11 @@ public class PathSteps {
             .getList("stations.id", Long.class);
     }
 
+    public static List<String> 지하철역_경로_조회_응답에서_역_이름_목록_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath()
+            .getList("stations.name");
+    }
+
     public static long 지하철역_경로_조회_응답에서_경로_거리_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
         return 지하철_경로_조회_응답.jsonPath().getLong("distance");
     }

@@ -12,6 +12,7 @@ import static nextstep.subway.fixture.StationFixture.교대역_이름;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
+import java.util.Map;
 import nextstep.utils.context.AcceptanceTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +33,7 @@ class StationAcceptanceTest {
     @Test
     void createStation() {
         // given
-        var 강남역_생성_요청_본문 = 강남역_생성_요청_본문();
+        Map<String, Object> 강남역_생성_요청_본문 = 강남역_생성_요청_본문();
 
         // when
         ExtractableResponse<Response> 강남역_생성_응답 = 지하철_역_생성_요청(강남역_생성_요청_본문);

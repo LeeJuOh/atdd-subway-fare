@@ -3,18 +3,21 @@ package nextstep.subway.application.dto.response;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nextstep.subway.domain.entity.Path;
 import nextstep.subway.domain.entity.Station;
 
+@NoArgsConstructor
 @Getter
 public class PathResponse {
 
+    @NoArgsConstructor
     @Getter
     public static class StationDto {
 
-        private final Long id;
+        private Long id;
 
-        private final String name;
+        private String name;
 
         public StationDto(Station station) {
             this.id = station.getId();
@@ -23,13 +26,8 @@ public class PathResponse {
 
     }
 
-    private final List<StationDto> stations;
-    private final long distance;
-
-    public PathResponse(List<StationDto> stations, long distance) {
-        this.stations = stations;
-        this.distance = distance;
-    }
+    private List<StationDto> stations;
+    private long distance;
 
     public PathResponse(Path shortestPath) {
         this.stations = shortestPath.getStations().stream()
