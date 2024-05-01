@@ -14,7 +14,7 @@ import java.util.Map;
 import nextstep.cucumber.AcceptanceContext;
 import nextstep.subway.application.dto.response.LineResponse;
 import nextstep.subway.application.dto.response.StationResponse;
-import nextstep.subway.ui.PathSearchType;
+import nextstep.subway.domain.enums.PathSearchType;
 import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
 

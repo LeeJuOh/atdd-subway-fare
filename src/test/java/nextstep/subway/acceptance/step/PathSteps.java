@@ -4,7 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
-import nextstep.subway.ui.PathSearchType;
+import nextstep.subway.domain.enums.PathSearchType;
 import org.springframework.http.MediaType;
 
 public class PathSteps {

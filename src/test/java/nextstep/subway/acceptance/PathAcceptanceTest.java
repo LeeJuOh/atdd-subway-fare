@@ -14,7 +14,7 @@ import static nextstep.subway.fixture.StationFixture.지하철역_생성_요청_
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import nextstep.subway.acceptance.step.PathSteps;
-import nextstep.subway.ui.PathSearchType;
+import nextstep.subway.domain.enums.PathSearchType;
 import nextstep.utils.context.AcceptanceTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;

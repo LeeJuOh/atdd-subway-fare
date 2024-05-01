@@ -1,4 +1,4 @@
-package nextstep.subway.ui;
+package nextstep.subway.domain.enums;
 
 public enum PathSearchType {
     DISTANCE,

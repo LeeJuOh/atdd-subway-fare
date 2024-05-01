@@ -12,6 +12,7 @@ import nextstep.subway.domain.entity.Path;
 import nextstep.subway.domain.entity.PathFinder;
 import nextstep.subway.domain.entity.Section;
 import nextstep.subway.domain.entity.Station;
+import nextstep.subway.domain.enums.PathSearchType;
 import nextstep.subway.fixture.LineFixture;
 import nextstep.subway.fixture.SectionFixture;
 import nextstep.subway.fixture.StationFixture;
@@ -72,12 +73,12 @@ class PathFinderTest {
         PathFinder pathFinder = new PathFinder(List.of(이호선, 삼호선, 신분당선));
 
         // when
-        Optional<Path> 교대역_양재역_최단경로 = pathFinder.findShortestPath(교대역, 양재역);
+        Optional<Path> 교대역_양재역_최단경로 = pathFinder.findShortestPath(교대역, 양재역, PathSearchType.DISTANCE);
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
             Path shortestPath = 교대역_양재역_최단경로.orElseThrow();
-            softAssertions.assertThat(shortestPath.getStations()).containsExactly(교대역, 남부터미널역, 양재역);
+            softAssertions.assertThat(shortestPath.getStationsOfPath()).containsExactly(교대역, 남부터미널역, 양재역);
             softAssertions.assertThat(shortestPath.getDistance()).isEqualTo(5L);
         });
 
@@ -92,7 +93,7 @@ class PathFinderTest {
 
         // when
         Throwable catchThrowable = catchThrowable(() -> {
-            pathFinder.findShortestPath(교대역, 교대역);
+            pathFinder.findShortestPath(교대역, 교대역, PathSearchType.DISTANCE);
         });
 
         // then
@@ -111,7 +112,7 @@ class PathFinderTest {
         PathFinder pathFinder = new PathFinder(List.of(이호선, 신분당선));
 
         // when
-        Optional<Path> 교대역_남부터미널역_경로 = pathFinder.findShortestPath(교대역, 남부터미널역);
+        Optional<Path> 교대역_남부터미널역_경로 = pathFinder.findShortestPath(교대역, 남부터미널역, PathSearchType.DISTANCE);
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
@@ -130,7 +131,7 @@ class PathFinderTest {
         Station 존재하지_않는_역 = StationFixture.giveOne(Long.MAX_VALUE, "폐쇄역");
 
         // when
-        Optional<Path> 존재하지_않는_경로 = pathFinder.findShortestPath(존재하지_않는_역, 양재역);
+        Optional<Path> 존재하지_않는_경로 = pathFinder.findShortestPath(존재하지_않는_역, 양재역, PathSearchType.DISTANCE);
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
