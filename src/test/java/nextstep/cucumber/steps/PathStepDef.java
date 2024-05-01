@@ -32,12 +32,12 @@ public class PathStepDef implements En {
                 String lineName = param.get("lineName");
                 Map<String, Object> params = new HashMap<>();
                 params.put("upStationId",
-                    ((StationResponse) context.store.get(param.get("upStation"))).getId().toString());
+                    context.getValueFromStore(param.get("upStation"), StationResponse.class).getId().toString());
                 params.put("downStationId",
-                    ((StationResponse) context.store.get(param.get("downStation"))).getId().toString());
+                    context.getValueFromStore(param.get("downStation"), StationResponse.class).getId().toString());
                 params.put("distance", param.get("distance"));
                 params.put("duration", param.get("duration"));
-                LineResponse line = (LineResponse) context.store.get(lineName);
+                LineResponse line = context.getValueFromStore(lineName, LineResponse.class);
                 지하철_구간_등록_요청(line.getId(), params);
             });
         });
