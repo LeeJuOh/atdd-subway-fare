@@ -14,6 +14,7 @@ import static nextstep.subway.fixture.StationFixture.지하철역_생성_요청_
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import nextstep.subway.acceptance.step.PathSteps;
+import nextstep.subway.ui.PathSearchType;
 import nextstep.utils.context.AcceptanceTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,14 +39,14 @@ class PathAcceptanceTest {
      * When 출발역과 도착역을 기준으로 경로를 조회하면
      * Then 최단거리를 기준으로 경로를 조회한다.
      */
-    @DisplayName("지하철역 경로를 조회한다.")
+    @DisplayName("지하철역 최단 거리 기준 경로를 조회한다.")
     @Test
     void getPaths() {
         // given
         이호선_삼호선_신분당선_노선의_구간_존재();
 
         // when
-        ExtractableResponse<Response> 지하철_경로_조회_응답 = 지하철_경로_조회_요청(교대역_아이디, 양재역_아이디);
+        ExtractableResponse<Response> 지하철_경로_조회_응답 = 지하철_경로_조회_요청(교대역_아이디, 양재역_아이디, PathSearchType.DISTANCE);
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(지하철_경로_조회_응답.statusCode()).isEqualTo(HttpStatus.OK.value());
