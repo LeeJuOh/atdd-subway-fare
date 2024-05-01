@@ -53,10 +53,10 @@ class PathFinderTest {
         삼호선 = LineFixture.giveOne(2L, "3호선", "orange");
         신분당선 = LineFixture.giveOne(3L, "신분당선", "red");
 
-        교대역_강남역_구간 = SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, 10L);
-        교대역_남부터미널역_구간 = SectionFixture.giveOne(2L, 삼호선, 교대역, 남부터미널역, 2L);
-        남부터미널역_양재역_구간 = SectionFixture.giveOne(3L, 삼호선, 남부터미널역, 양재역, 3L);
-        강남역_양재역_구간 = SectionFixture.giveOne(4L, 신분당선, 강남역, 양재역, 10L);
+        교대역_강남역_구간 = SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, 10L, 10L);
+        교대역_남부터미널역_구간 = SectionFixture.giveOne(2L, 삼호선, 교대역, 남부터미널역, 2L, 2L);
+        남부터미널역_양재역_구간 = SectionFixture.giveOne(3L, 삼호선, 남부터미널역, 양재역, 3L, 3L);
+        강남역_양재역_구간 = SectionFixture.giveOne(4L, 신분당선, 강남역, 양재역, 10L, 10L);
 
         이호선.addSection(교대역_강남역_구간);
         삼호선.addSection(교대역_남부터미널역_구간);

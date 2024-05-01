@@ -34,6 +34,7 @@ public class PathStepDef implements En {
                 params.put("downStationId",
                     ((StationResponse) context.store.get(param.get("downStation"))).getId().toString());
                 params.put("distance", param.get("distance"));
+                params.put("duration", param.get("duration"));
                 LineResponse line = (LineResponse) context.store.get(lineName);
                 지하철_구간_등록_요청(line.getId(), params);
             });
