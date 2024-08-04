@@ -66,11 +66,8 @@ public class PathStepDef implements En {
                     .isEqualTo(duration);
             });
         });
-
-        And("이용 요금 {int} 함께 응답함", (Integer fare) -> {
+        And("이용 요금 {int}도 함께 응답함", (Integer fare) -> {
             SoftAssertions.assertSoftly(softAssertions -> {
-                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_요금_추출(context.response))
-                    .isEqualTo(fare);
                 softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_요금_추출(context.response))
                     .isEqualTo(fare);
             });
