@@ -14,7 +14,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 @Slf4j
-public class PathFinder {
+public class SubwayMap {
 
     @Getter
     static class SectionEdge extends DefaultWeightedEdge {
@@ -30,7 +30,7 @@ public class PathFinder {
     private final DijkstraShortestPath<Station, SectionEdge> distanceShortestPath;
     private final DijkstraShortestPath<Station, SectionEdge> durationShortestPath;
 
-    public PathFinder(List<Line> lines) {
+    public SubwayMap(List<Line> lines) {
         this.lines = lines;
         this.distanceShortestPath = new DijkstraShortestPath<>(createWeightedGraph(PathSearchType.DISTANCE));
         this.durationShortestPath = new DijkstraShortestPath<>(createWeightedGraph(PathSearchType.DURATION));

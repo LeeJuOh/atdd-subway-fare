@@ -27,10 +27,12 @@ public class PathResponse {
     private List<StationDto> stations;
     private long distance;
     private long duration;
+    private int fare;
 
-    public PathResponse(List<StationDto> stations, long distance, long duration) {
+    public PathResponse(List<StationDto> stations, long distance, long duration, int fare) {
         this.stations = stations;
         this.distance = distance;
         this.duration = duration;
+        this.fare = fare;
     }
 }
