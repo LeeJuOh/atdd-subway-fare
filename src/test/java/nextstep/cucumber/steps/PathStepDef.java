@@ -4,6 +4,7 @@ import static nextstep.subway.acceptance.step.PathSteps.지하철_경로_조회_
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_거리_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_시간_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_역_이름_목록_추출;
+import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_요금_추출;
 import static nextstep.subway.acceptance.step.SectionSteps.지하철_구간_등록_요청;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
@@ -63,6 +64,15 @@ public class PathStepDef implements En {
                     .isEqualTo(distance);
                 softAssertions.assertThat(지하철역_경로_조회_응답에서_경로_시간_추출(context.response))
                     .isEqualTo(duration);
+            });
+        });
+
+        And("이용 요금 {int} 함께 응답함", (Integer fare) -> {
+            SoftAssertions.assertSoftly(softAssertions -> {
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_요금_추출(context.response))
+                    .isEqualTo(fare);
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_요금_추출(context.response))
+                    .isEqualTo(fare);
             });
         });
     }

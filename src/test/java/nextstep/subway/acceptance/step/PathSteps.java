@@ -40,4 +40,8 @@ public class PathSteps {
     public static long 지하철역_경로_조회_응답에서_경로_시간_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
         return 지하철_경로_조회_응답.jsonPath().getLong("duration");
     }
+
+    public static int 지하철역_경로_조회_응답에서_지하철_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath().getInt("fare");
+    }
 }
