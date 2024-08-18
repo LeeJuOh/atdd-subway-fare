@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import nextstep.auth.fixture.GithubResponses;
 import nextstep.auth.fixture.TokenFixture;
-import nextstep.member.acceptance.steps.MemberSteps;
 import nextstep.member.domain.Member;
 import nextstep.member.domain.MemberRepository;
 import nextstep.utils.context.AcceptanceTest;
@@ -61,7 +60,7 @@ class AuthAcceptanceTest {
     }
 
     /**
-     * given 사용자가 존재하고
+     * given 깃허브 사용자가 존재하고
      * when github 로그인을 시도하면
      * then subway accessToken 값을 조회할 수 있다.
      */
@@ -69,7 +68,6 @@ class AuthAcceptanceTest {
     @Test
     void githubAuth() {
         GithubResponses 회원 = GithubResponses.사용자1;
-        MemberSteps.회원_생성_요청(회원.getEmail(), 회원.getEmail(), 10);
 
         //when
         ExtractableResponse<Response> 깃헙_로그인_요청_응답 =

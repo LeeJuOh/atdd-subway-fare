@@ -23,6 +23,19 @@ public class PathSteps {
             .extract();
     }
 
+    public static ExtractableResponse<Response> 지하철_경로_조회_요청(Long sourceStationId, Long targetStationId,
+        PathSearchType searchType, String accessToken) {
+        return RestAssured.given().log().all()
+            .auth().oauth2(accessToken)
+            .queryParam("source", sourceStationId)
+            .queryParam("target", targetStationId)
+            .queryParam("type", searchType.name())
+            .accept(MediaType.APPLICATION_JSON_VALUE)
+            .when().get(SUBWAY_PATH_BASE_PATH)
+            .then().log().all()
+            .extract();
+    }
+
     public static List<Long> 지하철역_경로_조회_응답에서_역_아이디_목록_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
         return 지하철_경로_조회_응답.jsonPath()
             .getList("stations.id", Long.class);
@@ -41,7 +54,20 @@ public class PathSteps {
         return 지하철_경로_조회_응답.jsonPath().getLong("duration");
     }
 
-    public static int 지하철역_경로_조회_응답에서_지하철_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
-        return 지하철_경로_조회_응답.jsonPath().getInt("fare");
+
+    public static int 지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath().getInt("distanceFare");
+    }
+
+    public static int 지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath().getInt("lineAdditionalFee");
+    }
+
+    public static int 지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath().getInt("ageDiscount");
+    }
+
+    public static int 지하철역_경로_조회_응답에서_지하철_총_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
+        return 지하철_경로_조회_응답.jsonPath().getInt("totalFare");
     }
 }

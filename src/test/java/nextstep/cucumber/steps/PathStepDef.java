@@ -4,7 +4,10 @@ import static nextstep.subway.acceptance.step.PathSteps.지하철_경로_조회_
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_거리_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_시간_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_역_이름_목록_추출;
-import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_요금_추출;
+import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출;
+import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출;
+import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출;
+import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_총_요금_추출;
 import static nextstep.subway.acceptance.step.SectionSteps.지하철_구간_등록_요청;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
@@ -26,7 +29,6 @@ public class PathStepDef implements En {
 
 
     public PathStepDef() {
-
         Given("지하철 구간을 등록 요청하고", (DataTable table) -> {
             List<Map<String, String>> maps = table.asMaps();
             maps.forEach(param -> {
@@ -43,14 +45,22 @@ public class PathStepDef implements En {
             });
         });
 
-        When("{string}에서 {string}까지의 {string} 기준으로 경로 조회를 요청하면",
+        When("{string} 에서 {string} 까지의 {string} 기준으로 경로 조회를 요청하면",
             (String sourceStationName, String targetStationName, String type) -> {
+                Object accessToken = context.store.get("accessToken");
                 Long sourceId = ((StationResponse) context.store.get(sourceStationName)).getId();
                 Long targetId = ((StationResponse) context.store.get(targetStationName)).getId();
                 PathSearchType searchType = getPathSearchType(type);
-                context.response = 지하철_경로_조회_요청(sourceId, targetId, searchType);
-            });
-        Then("{string} 기준 {string} 경로를 응답", (String type, String path) -> {
+                if (accessToken == null) {
+                    context.response = 지하철_경로_조회_요청(sourceId, targetId, searchType);
+                } else {
+                    context.response = 지하철_경로_조회_요청(sourceId, targetId, searchType, accessToken.toString());
+                }
+
+            }
+        );
+
+        Then("{string} 경로를 응답", (String path) -> {
             List<String> stationNames = Arrays.asList(path.split(","));
             SoftAssertions.assertSoftly(softAssertions -> {
                 softAssertions.assertThat(지하철역_경로_조회_응답에서_역_이름_목록_추출(context.response))
@@ -66,10 +76,31 @@ public class PathStepDef implements En {
                     .isEqualTo(duration);
             });
         });
-        And("이용 요금 {int}도 함께 응답함", (Integer fare) -> {
+
+        And("거리비례 운임 요금 {int}도 함께 응답함", (Integer distanceFare) -> {
             SoftAssertions.assertSoftly(softAssertions -> {
-                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_요금_추출(context.response))
-                    .isEqualTo(fare);
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출(context.response))
+                    .isEqualTo(distanceFare);
+            });
+        });
+
+        And("경로의 노선 중 가장 높은 금액의 노선 추가 요금 {int}도 함께 응답함", (Integer lineAdditionalFee) -> {
+            SoftAssertions.assertSoftly(softAssertions -> {
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출(context.response))
+                    .isEqualTo(lineAdditionalFee);
+            });
+        });
+        And("연령별 할인 요금 {int}도 함께 응답함", (Integer ageDiscount) -> {
+            SoftAssertions.assertSoftly(softAssertions -> {
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출(context.response))
+                    .isEqualTo(ageDiscount);
+            });
+        });
+
+        And("총 이용 요금 {int}도 함께 응답함", (Integer totalFare) -> {
+            SoftAssertions.assertSoftly(softAssertions -> {
+                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_총_요금_추출(context.response))
+                    .isEqualTo(totalFare);
             });
         });
 

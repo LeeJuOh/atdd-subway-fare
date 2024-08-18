@@ -39,7 +39,10 @@ public class TokenService {
         GithubProfileResponse githubProfileResponse = githubClient
             .requestGithubProfile(githubAccessTokenResponse.getAccessToken());
         CustomUserDetail customUserDetail = userDetailService.findById(githubProfileResponse.getEmail())
-            .orElseGet(() -> userDetailService.loadUserDetail(githubProfileResponse.getEmail()));
+            .orElseGet(() -> userDetailService.loadUserDetail(
+                githubProfileResponse.getEmail(),
+                githubProfileResponse.getAge()
+            ));
         return createToken(customUserDetail.getId(), customUserDetail.getPassword());
     }
 }

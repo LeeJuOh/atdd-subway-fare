@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import nextstep.auth.application.domain.CustomUserDetail;
-import nextstep.auth.application.exception.AuthenticationException;
 import nextstep.auth.application.service.UserDetailService;
 import nextstep.member.domain.Member;
 import nextstep.member.domain.MemberDetailCustom;
@@ -21,8 +20,8 @@ public class MemberDetailService implements UserDetailService {
 
     @Override
     public Optional<CustomUserDetail> findById(String id) {
-        Member member = memberRepository.findByEmail(id).orElseThrow(AuthenticationException::new);
-        return Optional.of(new MemberDetailCustom(member.getEmail(), member.getPassword()));
+        return memberRepository.findByEmail(id)
+            .map(member -> new MemberDetailCustom(member.getEmail(), member.getPassword()));
     }
 
 
@@ -33,5 +32,11 @@ public class MemberDetailService implements UserDetailService {
             .orElseGet(() -> memberRepository.save(new Member(id, UUID.randomUUID().toString(), null)));
         return new MemberDetailCustom(member.getEmail(), member.getPassword());
     }
+
+    @Override
+    public CustomUserDetail loadUserDetail(String id, int age) {
+        Member member = memberRepository.findByEmail(id)
+            .orElseGet(() -> memberRepository.save(new Member(id, UUID.randomUUID().toString(), age)));
+        return new MemberDetailCustom(member.getEmail(), member.getPassword());    }
 
 }

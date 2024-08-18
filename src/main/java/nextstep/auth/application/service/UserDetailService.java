@@ -8,5 +8,6 @@ public interface UserDetailService {
     Optional<CustomUserDetail> findById(String id);
 
     CustomUserDetail loadUserDetail(String id);
+    CustomUserDetail loadUserDetail(String id, int age);
 
 }
