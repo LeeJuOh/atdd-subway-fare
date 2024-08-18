@@ -6,24 +6,27 @@ import lombok.Getter;
 @Getter
 public class LineCreateRequest {
 
-    private final String name;
+    private String name;
 
-    private final String color;
+    private String color;
 
-    private final Long upStationId;
+    private Long upStationId;
 
-    private final Long downStationId;
+    private Long downStationId;
 
-    private final Long distance;
-    private final Long duration;
+    private Long distance;
+    private Long duration;
+    private Long additionalFee;
 
     public LineCreateRequest(String name, String color, Long upStationId, Long downStationId, Long distance,
-        Long duration) {
+        Long duration,
+        Long additionalFee) {
         this.name = name;
         this.color = color;
         this.upStationId = upStationId;
         this.downStationId = downStationId;
         this.distance = distance;
         this.duration = duration;
+        this.additionalFee = additionalFee;
     }
 }

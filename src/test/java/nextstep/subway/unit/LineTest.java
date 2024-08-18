@@ -37,7 +37,7 @@ class LineTest {
         교대역 = StationFixture.giveOne(2L, 교대역_이름);
         낙성대역 = StationFixture.giveOne(3L, 낙성대역_이름);
 
-        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색);
+        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
 
         강남역_교대역_구간 = SectionFixture.giveOne(1L, 이호선, 강남역, 교대역, 10L, 10L);
         교대역_낙성대역_구간 = SectionFixture.giveOne(2L, 이호선, 교대역, 낙성대역, 10L, 10L);

@@ -25,8 +25,8 @@ class SubwayFareTest {
 
     private final Station 교대역 = StationFixture.giveOne(1L, 교대역_이름);
     private final Station 강남역 = StationFixture.giveOne(2L, 강남역_이름);
-    private final Line 이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색);
-    private final Line 신분당선 = LineFixture.giveOne(2L, "신분당선", "red");
+    private final Line 이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
+    private final Line 신분당선 = LineFixture.giveOne(2L, "신분당선", "red", 0);
     private SubWayFare subWayFare;
 
 

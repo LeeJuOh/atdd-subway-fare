@@ -50,9 +50,9 @@ class SubwayMapTest {
         양재역 = StationFixture.giveOne(3L, "양재역");
         남부터미널역 = StationFixture.giveOne(4L, "남부터미널역");
 
-        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색);
-        삼호선 = LineFixture.giveOne(2L, "3호선", "orange");
-        신분당선 = LineFixture.giveOne(3L, "신분당선", "red");
+        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
+        삼호선 = LineFixture.giveOne(2L, "3호선", "orange", 0);
+        신분당선 = LineFixture.giveOne(3L, "신분당선", "red", 0);
 
         교대역_강남역_구간 = SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, 10L, 10L);
         교대역_남부터미널역_구간 = SectionFixture.giveOne(2L, 삼호선, 교대역, 남부터미널역, 2L, 2L);

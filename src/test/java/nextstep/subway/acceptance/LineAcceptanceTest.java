@@ -62,7 +62,8 @@ class LineAcceptanceTest {
                 강남역_아이디,
                 교대역_아이디,
                 DISTANCE,
-                10L
+                10L,
+                0L
             ));
 
         // then

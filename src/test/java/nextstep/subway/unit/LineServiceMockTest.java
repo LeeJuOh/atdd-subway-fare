@@ -68,8 +68,8 @@ class LineServiceMockTest {
         서울역 = StationFixture.giveOne(4L, 서울역_이름);
         청량리역 = StationFixture.giveOne(5L, 청량리역_이름);
 
-        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색);
-        일호선 = LineFixture.giveOne(2L, 일호선_이름, 일호선_색);
+        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
+        일호선 = LineFixture.giveOne(2L, 일호선_이름, 일호선_색, 0);
 
         강남역_교대역_구간 = SectionFixture.giveOne(1L, 이호선, 강남역, 교대역, 10L, 10L);
         교대역_낙성대역_구간 = SectionFixture.giveOne(2L, 이호선, 교대역, 낙성대역, 10L, 10L);

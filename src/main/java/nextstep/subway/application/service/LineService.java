@@ -30,7 +30,8 @@ public class LineService {
         Station downStation = stationService.getStationById(lineCreateRequest.getDownStationId());
         Line line = lineRepository.save(Line.of(
             lineCreateRequest.getName(),
-            lineCreateRequest.getColor()
+            lineCreateRequest.getColor(),
+            lineCreateRequest.getAdditionalFee()
         ));
         line.addSection(
             Section.of(
@@ -61,6 +62,7 @@ public class LineService {
         Line line = getLineById(id);
         line.updateName(lineUpdateRequest.getName());
         line.updateColor(lineUpdateRequest.getColor());
+        line.updateAdditionalFee(lineUpdateRequest.getAdditionalFee());
     }
 
     @Transactional

@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class AddSectionRequest {
 
-    private final Long upStationId;
-    private final Long downStationId;
-    private final Long distance;
-    private final Long duration;
+    private Long upStationId;
+    private Long downStationId;
+    private Long distance;
+    private Long duration;
 
     public AddSectionRequest(Long upStationId, Long downStationId, Long distance, Long duration) {
         this.upStationId = upStationId;
