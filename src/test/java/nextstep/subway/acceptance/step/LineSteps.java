@@ -15,6 +15,7 @@ public class LineSteps {
     public static final String NAME = "name";
     public static final String ID = "id";
     public static final String COLOR = "color";
+    public static final String ADDITIONAL_FEE = "additional_fee";
 
     public static ExtractableResponse<Response> 지하철_노선_생성_요청(Map<String, Object> body) {
         return RestAssured.given().log().all()
@@ -79,6 +80,10 @@ public class LineSteps {
 
     public static String 지하철_노선_응답에서_노선_색상_추출(ExtractableResponse<Response> 지하철_노선_응답) {
         return 지하철_노선_응답.jsonPath().get(COLOR);
+    }
+
+    public static String 지하철_노선_응답에서_노선_추가요금_추출(ExtractableResponse<Response> 지하철_노선_응답) {
+        return 지하철_노선_응답.jsonPath().get(ADDITIONAL_FEE);
     }
 
     public static Long 지하철_노선_응답에서_노선의_상행_종점역_아이디_추출(ExtractableResponse<Response> 지하철_노선_응답) {

@@ -72,6 +72,7 @@ public class PathStepDef implements En {
                     .isEqualTo(fare);
             });
         });
+
     }
 
     private PathSearchType getPathSearchType(String type) {

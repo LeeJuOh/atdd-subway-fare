@@ -47,9 +47,10 @@ public class LineFixture {
 
     public static Map<String, Object> 노선_수정_요청(
         String name,
-        String color
+        String color,
+        Long additionalFee
     ) {
-        return Map.of("name", name, "color", color);
+        return Map.of("name", name, "color", color, "additionalFee", additionalFee);
     }
 
 

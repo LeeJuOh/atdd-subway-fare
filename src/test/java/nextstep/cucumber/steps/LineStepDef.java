@@ -32,6 +32,24 @@ public class LineStepDef implements En {
                     context.getValueFromStore(param.get("downStation"), StationResponse.class).getId().toString());
                 params.put("distance", param.get("distance"));
                 params.put("duration", param.get("duration"));
+                params.put("additionalFee", param.get("additionalFee"));
+                ExtractableResponse<Response> response = 지하철_노선_생성_요청(params);
+                context.store.put(params.get("name").toString(), response.as(LineResponse.class));
+            });
+        });
+
+        Given("지하철 노선의 추가 요금을 등록하고", (DataTable table) -> {
+            List<Map<String, String>> maps = table.asMaps();
+            maps.forEach(param -> {
+                Map<String, Object> params = new HashMap<>();
+                params.put("name", param.get("name"));
+                params.put("additionalFee", param.get("color"));
+                params.put("upStationId",
+                    context.getValueFromStore(param.get("upStation"), StationResponse.class).getId().toString());
+                params.put("downStationId",
+                    context.getValueFromStore(param.get("downStation"), StationResponse.class).getId().toString());
+                params.put("distance", param.get("distance"));
+                params.put("duration", param.get("duration"));
                 ExtractableResponse<Response> response = 지하철_노선_생성_요청(params);
                 context.store.put(params.get("name").toString(), response.as(LineResponse.class));
             });
