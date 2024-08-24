@@ -32,7 +32,7 @@ public class LineResponse {
     private String name;
 
     private String color;
-    private Long additionalFee;
+    private Integer additionalFee;
 
     private List<StationDto> stations;
 

@@ -25,6 +25,7 @@ class SubwayFareTest {
 
     private final Station 교대역 = StationFixture.giveOne(1L, 교대역_이름);
     private final Station 강남역 = StationFixture.giveOne(2L, 강남역_이름);
+    private final Station 양재역 = StationFixture.giveOne(3L, "양재역");
     private final Line 이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
     private final Line 신분당선 = LineFixture.giveOne(2L, "신분당선", "red", 0);
     private SubWayFare subWayFare;
@@ -35,12 +36,12 @@ class SubwayFareTest {
     void 지하철_요금_계산_기본_운임비(long distance, int expectedFare) {
         // given
         이호선.addSection(SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, distance, 1));
-        var subwayMap = new SubwayMap(List.of(이호선, 신분당선));
+        SubwayMap subwayMap = new SubwayMap(List.of(이호선, 신분당선));
         Path path = subwayMap.findShortestPath(교대역, 강남역, PathSearchType.DISTANCE).get();
         subWayFare = new SubWayFare(path);
 
         // when
-        int fare = subWayFare.calculateFare();
+        int fare = subWayFare.getTotalFare();
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
@@ -53,12 +54,12 @@ class SubwayFareTest {
     void 지하철_요금_계산_10km_초과(long distance, int expectedFare) {
         // given
         이호선.addSection(SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, distance, 1));
-        var subwayMap = new SubwayMap(List.of(이호선, 신분당선));
+        SubwayMap subwayMap = new SubwayMap(List.of(이호선, 신분당선));
         Path path = subwayMap.findShortestPath(교대역, 강남역, PathSearchType.DISTANCE).get();
         subWayFare = new SubWayFare(path);
 
         // when
-        int fare = subWayFare.calculateFare();
+        int fare = subWayFare.getTotalFare();
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
@@ -71,12 +72,53 @@ class SubwayFareTest {
     void 지하철_요금_계산_50km_초과(long distance, int expectedFare) {
         // given
         이호선.addSection(SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, distance, 1));
-        var subwayMap = new SubwayMap(List.of(이호선, 신분당선));
+        이호선.addSection(SectionFixture.giveOne(1L, 이호선, 강남역, 양재역, distance, 1));
+        SubwayMap subwayMap = new SubwayMap(List.of(이호선, 신분당선));
         Path path = subwayMap.findShortestPath(교대역, 강남역, PathSearchType.DISTANCE).get();
         subWayFare = new SubWayFare(path);
 
         // when
-        int fare = subWayFare.calculateFare();
+        int fare = subWayFare.getTotalFare();
+
+        // then
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(fare).isEqualTo(expectedFare);
+        });
+    }
+
+    @ParameterizedTest
+    @MethodSource("lienAdditionalFeeArguments")
+    void 지하철_요금_계산_노선_추가금액(int additionalFee, int additionalFee2, int expectedFare) {
+        // given
+        이호선.updateAdditionalFee(additionalFee);
+        이호선.addSection(SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, 1L, 1));
+        신분당선.updateAdditionalFee(additionalFee2);
+        신분당선.addSection(SectionFixture.giveOne(1L, 신분당선, 강남역, 양재역, 1L, 1));
+        SubwayMap subwayMap = new SubwayMap(List.of(이호선, 신분당선));
+        Path path = subwayMap.findShortestPath(교대역, 양재역, PathSearchType.DISTANCE).get();
+        subWayFare = new SubWayFare(path);
+
+        // when
+        int fare = subWayFare.getTotalFare();
+
+        // then
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(fare).isEqualTo(expectedFare);
+        });
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("ageDiscountFareArguments")
+    void 지하철_요금_계산_연령_할인(long distance, int age, int expectedFare) {
+        // given
+        이호선.addSection(SectionFixture.giveOne(1L, 이호선, 교대역, 강남역, distance, 1));
+        SubwayMap subwayMap = new SubwayMap(List.of(이호선, 신분당선));
+        Path path = subwayMap.findShortestPath(교대역, 강남역, PathSearchType.DISTANCE).get();
+        subWayFare = new SubWayFare(path, age);
+
+        // when
+        int fare = subWayFare.getTotalFare();
 
         // then
         SoftAssertions.assertSoftly(softAssertions -> {
@@ -114,5 +156,26 @@ class SubwayFareTest {
             Arguments.of(67L, 2050)
         );
     }
+
+    private static Stream<Arguments> ageDiscountFareArguments() {
+        return Stream.of(
+            Arguments.of(5L, 5, 1250),
+            Arguments.of(5L, 6, 800),
+            Arguments.of(5L, 12, 800),
+            Arguments.of(5L, 13, 1070),
+            Arguments.of(5L, 18, 1070),
+            Arguments.of(5L, 19, 1250)
+        );
+    }
+
+    private static Stream<Arguments> lienAdditionalFeeArguments() {
+        return Stream.of(
+            Arguments.of(100, 200, 1450),
+            Arguments.of(100, 100, 1350),
+            Arguments.of(200, 100, 1450)
+
+        );
+    }
+
 
 }

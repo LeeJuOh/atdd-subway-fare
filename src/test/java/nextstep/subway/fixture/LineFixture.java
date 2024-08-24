@@ -55,7 +55,7 @@ public class LineFixture {
     }
 
 
-    public static Line giveOne(long id, String name, String color, long additionalFee) {
+    public static Line giveOne(long id, String name, String color, int additionalFee) {
         Line line = Line.of(name, color, additionalFee);
         ReflectionTestUtils.setField(line, "id", id);
         return line;

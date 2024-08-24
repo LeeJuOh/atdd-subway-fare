@@ -1,20 +1,35 @@
 package nextstep.subway.domain.entity;
 
-import java.util.List;
-
 public class SubWayFare {
 
-    private static final int DEFAULT_FARE = 1250;
-    private final List<FarePolicy> policies;
-    private int fare;
+    private static final int DEFAULT_DISTANCE_FARE = 1250;
+    private final FarePolicy policy;
+    private final int totalFare;
 
-    public SubWayFare(Path path) {
-        this.policies = List.of(new DistanceFarePolicy(path.getDistance()));
-        this.fare = DEFAULT_FARE;
+    public SubWayFare(Path path, int age) {
+        FarePolicy policy = FarePolicy.chain(
+            new DistanceFarePolicy(path),
+            new LineFarePolicy(path),
+            new AgeFarePolicy(age)
+        );
+        this.policy = policy;
+        this.totalFare = calculateTotalFare();
     }
 
-    public int calculateFare() {
-        policies.forEach(policy -> fare += policy.getAdditionalFare());
-        return fare;
+    public SubWayFare(Path path) {
+        FarePolicy policy = FarePolicy.chain(
+            new DistanceFarePolicy(path),
+            new LineFarePolicy(path)
+        );
+        this.policy = policy;
+        this.totalFare = calculateTotalFare();
+    }
+
+    private int calculateTotalFare() {
+        return this.policy.apply(DEFAULT_DISTANCE_FARE);
+    }
+
+    public int getTotalFare() {
+        return totalFare;
     }
 }

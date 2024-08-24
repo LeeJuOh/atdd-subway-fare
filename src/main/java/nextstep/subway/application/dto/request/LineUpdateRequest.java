@@ -9,15 +9,15 @@ import lombok.Getter;
 public class LineUpdateRequest {
 
     @NotBlank
-    private String name;
+    private final String name;
 
     @NotBlank
-    private String color;
+    private final String color;
 
     @PositiveOrZero
-    private Long additionalFee;
+    private final Integer additionalFee;
 
-    public LineUpdateRequest(String name, String color, Long additionalFee) {
+    public LineUpdateRequest(String name, String color, Integer additionalFee) {
         this.name = name;
         this.color = color;
         this.additionalFee = additionalFee;

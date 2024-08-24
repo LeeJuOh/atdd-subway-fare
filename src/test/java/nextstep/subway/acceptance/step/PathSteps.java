@@ -55,18 +55,6 @@ public class PathSteps {
     }
 
 
-    public static int 지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
-        return 지하철_경로_조회_응답.jsonPath().getInt("distanceFare");
-    }
-
-    public static int 지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
-        return 지하철_경로_조회_응답.jsonPath().getInt("lineAdditionalFee");
-    }
-
-    public static int 지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
-        return 지하철_경로_조회_응답.jsonPath().getInt("ageDiscount");
-    }
-
     public static int 지하철역_경로_조회_응답에서_지하철_총_요금_추출(ExtractableResponse<Response> 지하철_경로_조회_응답) {
         return 지하철_경로_조회_응답.jsonPath().getInt("totalFare");
     }

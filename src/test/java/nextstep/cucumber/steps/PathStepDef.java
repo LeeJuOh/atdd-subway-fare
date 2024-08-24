@@ -4,9 +4,6 @@ import static nextstep.subway.acceptance.step.PathSteps.지하철_경로_조회_
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_거리_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_경로_시간_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_역_이름_목록_추출;
-import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출;
-import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출;
-import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출;
 import static nextstep.subway.acceptance.step.PathSteps.지하철역_경로_조회_응답에서_지하철_총_요금_추출;
 import static nextstep.subway.acceptance.step.SectionSteps.지하철_구간_등록_요청;
 import io.cucumber.datatable.DataTable;
@@ -74,26 +71,6 @@ public class PathStepDef implements En {
                     .isEqualTo(distance);
                 softAssertions.assertThat(지하철역_경로_조회_응답에서_경로_시간_추출(context.response))
                     .isEqualTo(duration);
-            });
-        });
-
-        And("거리비례 운임 요금 {int}도 함께 응답함", (Integer distanceFare) -> {
-            SoftAssertions.assertSoftly(softAssertions -> {
-                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_거리비례_요금_추출(context.response))
-                    .isEqualTo(distanceFare);
-            });
-        });
-
-        And("경로의 노선 중 가장 높은 금액의 노선 추가 요금 {int}도 함께 응답함", (Integer lineAdditionalFee) -> {
-            SoftAssertions.assertSoftly(softAssertions -> {
-                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_노선_추가_요금_추출(context.response))
-                    .isEqualTo(lineAdditionalFee);
-            });
-        });
-        And("연령별 할인 요금 {int}도 함께 응답함", (Integer ageDiscount) -> {
-            SoftAssertions.assertSoftly(softAssertions -> {
-                softAssertions.assertThat(지하철역_경로_조회_응답에서_지하철_연령별_할인_요금_추출(context.response))
-                    .isEqualTo(ageDiscount);
             });
         });
 

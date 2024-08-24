@@ -27,18 +27,18 @@ public class Line {
     @Column(length = 50, nullable = false)
     private String color;
 
-    private long additionalFee;
+    private int additionalFee;
     @Embedded
     private Sections sections;
 
-    protected Line(String name, String color, long additionalFee) {
+    protected Line(String name, String color, int additionalFee) {
         this.name = name;
         this.color = color;
         this.sections = new Sections();
         this.additionalFee = additionalFee;
     }
 
-    public static Line of(String name, String color, long additionalFee) {
+    public static Line of(String name, String color, int additionalFee) {
         return new Line(name, color, additionalFee);
     }
 
@@ -50,7 +50,7 @@ public class Line {
         this.color = color;
     }
 
-    public void updateAdditionalFee(long additionalFee) {
+    public void updateAdditionalFee(int additionalFee) {
         this.additionalFee = additionalFee;
     }
 

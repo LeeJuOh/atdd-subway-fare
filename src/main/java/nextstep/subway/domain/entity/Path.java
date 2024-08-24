@@ -1,11 +1,11 @@
 package nextstep.subway.domain.entity;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.Getter;
-import nextstep.subway.application.dto.response.PathResponse.StationDto;
 
 @Getter
 public class Path {
@@ -16,20 +16,24 @@ public class Path {
         this.sections = sections;
     }
 
-    public List<StationDto> getStationDtoOfPath(Station target) {
-        List<Station> stations = this.getStationsOfPath();
+    public List<Station> getPathStations(Station target) {
+        List<Station> stations = this.getPathStations();
         if (!stations.isEmpty()) {
             Station sourceStation = stations.get(0);
             if (Objects.equals(sourceStation.getId(), target.getId())) {
                 Collections.reverse(stations);
             }
         }
-        return stations.stream()
-            .map(StationDto::new)
-            .collect(Collectors.toList());
+        return stations;
     }
 
-    public List<Station> getStationsOfPath() {
+    public Optional<Line> getLineWithMaxFare() {
+        return this.getSections().getAllSections().stream()
+            .max(Comparator.comparingInt(section -> section.getLine().getAdditionalFee()))
+            .map(Section::getLine);
+    }
+
+    public List<Station> getPathStations() {
         return this.sections.getSortedStationsByUpDirection(true);
     }
 

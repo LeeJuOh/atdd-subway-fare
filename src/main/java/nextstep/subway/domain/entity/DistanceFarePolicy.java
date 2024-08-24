@@ -1,6 +1,6 @@
 package nextstep.subway.domain.entity;
 
-public class DistanceFarePolicy implements FarePolicy {
+public class DistanceFarePolicy extends FarePolicy {
 
 
     public static final long DEFAULT_DISTANCE = 10L;
@@ -10,18 +10,21 @@ public class DistanceFarePolicy implements FarePolicy {
     public static final int OVER_50KM_FARE_DISTANCE = 8;
     public static final int OVER_10KM_FARE_AMOUNT = 100;
     public static final int OVER_50KM_FARE_AMOUNT = 100;
-    private final long distance;
 
-    public DistanceFarePolicy(long distance) {
-        this.distance = distance;
+    private final Path path;
+
+    public DistanceFarePolicy(Path path) {
+        this.path = path;
     }
 
+
     @Override
-    public int getAdditionalFare() {
+    public int apply(int fare) {
+        long distance = path.getDistance();
         if (distance > DEFAULT_DISTANCE) {
-            return calculateOverFare(distance);
+            fare += calculateOverFare(distance);
         }
-        return 0;
+        return applyNext(fare);
     }
 
     private int calculateOverFare(long distance) {
@@ -35,5 +38,6 @@ public class DistanceFarePolicy implements FarePolicy {
         }
         return 0;
     }
+
 
 }
