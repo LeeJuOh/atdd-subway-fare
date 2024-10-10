@@ -8,4 +8,6 @@ public interface CustomUserDetail {
     String getPassword();
 
     boolean checkPassword(String password);
+
+    boolean isEmpty();
 }

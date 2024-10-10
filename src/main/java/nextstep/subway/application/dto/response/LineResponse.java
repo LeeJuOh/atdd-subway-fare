@@ -32,6 +32,7 @@ public class LineResponse {
     private String name;
 
     private String color;
+    private Integer additionalFee;
 
     private List<StationDto> stations;
 
@@ -39,6 +40,7 @@ public class LineResponse {
         this.id = line.getId();
         this.name = line.getName();
         this.color = line.getColor();
+        this.additionalFee = line.getAdditionalFee();
         this.stations = line.getAllStations().stream()
             .map(StationDto::new)
             .collect(Collectors.toList());

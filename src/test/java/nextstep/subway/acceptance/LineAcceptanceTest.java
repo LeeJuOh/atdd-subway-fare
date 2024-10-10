@@ -10,6 +10,7 @@ import static nextstep.subway.acceptance.step.LineSteps.지하철_노선_수정_
 import static nextstep.subway.acceptance.step.LineSteps.지하철_노선_응답에서_노선_색상_추출;
 import static nextstep.subway.acceptance.step.LineSteps.지하철_노선_응답에서_노선_아이디_추출;
 import static nextstep.subway.acceptance.step.LineSteps.지하철_노선_응답에서_노선_이름_추출;
+import static nextstep.subway.acceptance.step.LineSteps.지하철_노선_응답에서_노선_추가요금_추출;
 import static nextstep.subway.acceptance.step.StationSteps.지하철_역_생성_요청;
 import static nextstep.subway.acceptance.step.StationSteps.지하철역_응답에서_역_아이디_추출;
 import static nextstep.subway.fixture.LineFixture.강남역_교대역_구간_이호선_생성_요청;
@@ -60,7 +61,9 @@ class LineAcceptanceTest {
                 COLOR_ONE,
                 강남역_아이디,
                 교대역_아이디,
-                DISTANCE
+                DISTANCE,
+                10L,
+                0L
             ));
 
         // then
@@ -114,6 +117,7 @@ class LineAcceptanceTest {
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(지하철_노선_단일_조희_응답.statusCode()).isEqualTo(HttpStatus.OK.value());
             softAssertions.assertThat(지하철_노선_응답에서_노선_아이디_추출(지하철_노선_단일_조희_응답)).isEqualTo(일호선_아이디);
+            softAssertions.assertThat(지하철_노선_응답에서_노선_추가요금_추출(지하철_노선_단일_조희_응답)).isEqualTo(0L);
         });
 
     }
@@ -129,7 +133,7 @@ class LineAcceptanceTest {
         // given
         Long 일호선_아이디 = 지하철_노선_응답에서_노선_아이디_추출(지하철_노선_생성_요청(서울역_청량리역_구간_일호선_생성_요청()));
         // when
-        ExtractableResponse<Response> 지하철_노선_수정_응답 = 지하철_노선_수정_요청(일호선_아이디, 노선_수정_요청(LINE_TWO, COLOR_TWO));
+        ExtractableResponse<Response> 지하철_노선_수정_응답 = 지하철_노선_수정_요청(일호선_아이디, 노선_수정_요청(LINE_TWO, COLOR_TWO, 1000L));
 
         // then
         ExtractableResponse<Response> 지하철_노선_단일_조희_응답 = 지하철_노선_단일_조회_요청(일호선_아이디);
@@ -137,6 +141,7 @@ class LineAcceptanceTest {
             softAssertions.assertThat(지하철_노선_수정_응답.statusCode()).isEqualTo(HttpStatus.OK.value());
             softAssertions.assertThat(지하철_노선_응답에서_노선_이름_추출(지하철_노선_단일_조희_응답)).isEqualTo(LINE_TWO);
             softAssertions.assertThat(지하철_노선_응답에서_노선_색상_추출(지하철_노선_단일_조희_응답)).isEqualTo(COLOR_TWO);
+            softAssertions.assertThat(지하철_노선_응답에서_노선_추가요금_추출(지하철_노선_단일_조희_응답)).isEqualTo(1000L);
         });
 
     }

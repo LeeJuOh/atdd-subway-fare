@@ -30,9 +30,18 @@ public class LineService {
         Station downStation = stationService.getStationById(lineCreateRequest.getDownStationId());
         Line line = lineRepository.save(Line.of(
             lineCreateRequest.getName(),
-            lineCreateRequest.getColor()
+            lineCreateRequest.getColor(),
+            lineCreateRequest.getAdditionalFee()
         ));
-        line.addSection(Section.of(line, upStation, downStation, lineCreateRequest.getDistance()));
+        line.addSection(
+            Section.of(
+                line,
+                upStation,
+                downStation,
+                lineCreateRequest.getDistance(),
+                lineCreateRequest.getDuration()
+            )
+        );
         return new LineResponse(line);
     }
 
@@ -53,6 +62,7 @@ public class LineService {
         Line line = getLineById(id);
         line.updateName(lineUpdateRequest.getName());
         line.updateColor(lineUpdateRequest.getColor());
+        line.updateAdditionalFee(lineUpdateRequest.getAdditionalFee());
     }
 
     @Transactional
@@ -67,7 +77,13 @@ public class LineService {
         Station upStation = stationService.getStationById(addSectionRequest.getUpStationId());
         Station downStation = stationService.getStationById(addSectionRequest.getDownStationId());
         line.addSection(
-            Section.of(line, upStation, downStation, addSectionRequest.getDistance())
+            Section.of(
+                line,
+                upStation,
+                downStation,
+                addSectionRequest.getDistance(),
+                addSectionRequest.getDuration()
+            )
         );
         return new LineResponse(line);
     }

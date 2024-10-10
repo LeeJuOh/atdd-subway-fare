@@ -22,7 +22,6 @@ public class Station {
     @Column(length = 20, nullable = false)
     private String name;
 
-
     public Station(String name) {
         this.name = name;
     }

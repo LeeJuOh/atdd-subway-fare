@@ -31,6 +31,9 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws AuthenticationException {
         String authorization = webRequest.getHeader("Authorization");
+        if (authorization == null) {
+            return MemberDetailCustom.EMPTY;
+        }
         if (!"bearer".equalsIgnoreCase(authorization.split(" ")[0])) {
             throw new AuthenticationException();
         }
@@ -38,7 +41,6 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
         if (!jwtTokenProvider.validateToken(token)) {
             throw new AuthenticationException();
         }
-
         String email = jwtTokenProvider.getPrincipal(token);
         CustomUserDetail customUserDetail = userDetailService.loadUserDetail(email);
         return new MemberDetailCustom(customUserDetail.getId(), customUserDetail.getPassword());

@@ -44,7 +44,7 @@ public class StationStepDef implements En {
 
         Then("지하철역 목록 조회 시 생성한 역을 찾을 수 있다", () -> {
             List<String> stationNames = 지하철역_목록_응답에서_역_이름_목록_추출(지하철역_목록_조회_요청());
-            assertThat(stationNames).containsAnyOf("강남역");
+            assertThat(stationNames).containsExactly("강남역");
         });
     }
 

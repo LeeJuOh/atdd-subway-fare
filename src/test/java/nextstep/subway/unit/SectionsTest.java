@@ -46,12 +46,13 @@ class SectionsTest {
         낙성대역 = StationFixture.giveOne(3L, 낙성대역_이름);
         봉천역 = StationFixture.giveOne(4L, 봉천역_이름);
 
-        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색);
+        이호선 = LineFixture.giveOne(1L, 이호선_이름, 이호선_색, 0);
 
-        강남역_낙성대역_구간 = SectionFixture.giveOne(1L, 이호선, 강남역, 낙성대역, 10L);
-        낙성대역_봉천역_구간 = SectionFixture.giveOne(2L, 이호선, 낙성대역, 봉천역, 10L);
-        강남역_교대역_구간 = SectionFixture.giveOne(3L, 이호선, 강남역, 교대역, 5L);
-        강남역_낙성대역_구간의_길이와_같은_강남역_교대역_구간 = SectionFixture.giveOne(4L, 이호선, 강남역, 교대역, 강남역_낙성대역_구간.getDistance());
+        강남역_낙성대역_구간 = SectionFixture.giveOne(1L, 이호선, 강남역, 낙성대역, 10L, 10L);
+        낙성대역_봉천역_구간 = SectionFixture.giveOne(2L, 이호선, 낙성대역, 봉천역, 10L, 10L);
+        강남역_교대역_구간 = SectionFixture.giveOne(3L, 이호선, 강남역, 교대역, 5L, 5L);
+        강남역_낙성대역_구간의_길이와_같은_강남역_교대역_구간 = SectionFixture
+            .giveOne(4L, 이호선, 강남역, 교대역, 강남역_낙성대역_구간.getDistance(), 강남역_낙성대역_구간.getDuration());
     }
 
 

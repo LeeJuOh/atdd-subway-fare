@@ -27,7 +27,7 @@ public class GithubFakeController {
         @RequestHeader("Authorization") String authorization) {
         String accessToken = authorization.split(" ")[1];
         GithubResponses githubResponse = GithubResponses.lookUpByToken(accessToken);
-        GithubProfileResponse response = new GithubProfileResponse(githubResponse.getEmail());
+        GithubProfileResponse response = new GithubProfileResponse(githubResponse.getEmail(), githubResponse.getAge());
         return ResponseEntity.ok(response);
     }
 }
