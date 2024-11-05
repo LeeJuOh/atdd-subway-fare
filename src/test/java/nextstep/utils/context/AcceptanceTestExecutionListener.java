@@ -3,11 +3,12 @@ package nextstep.utils.context;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 
-public class AcceptanceTestExecutionListener extends AbstractTestExecutionListener {
+public class AcceptanceTestExecutionListener extends AbstractTestExecutionListener implements Ordered {
 
     @Override
     public void beforeTestMethod(TestContext testContext) {
@@ -56,5 +57,10 @@ public class AcceptanceTestExecutionListener extends AbstractTestExecutionListen
 
     private void execute(final JdbcTemplate jdbcTemplate, final String query) {
         jdbcTemplate.execute(query);
+    }
+
+    @Override
+    public int getOrder() {
+        return Integer.MAX_VALUE;
     }
 }
